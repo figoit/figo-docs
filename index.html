@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=./README.html">
+    <meta http-equiv="refresh" content="0; url=/figo-docs/">
     <title>Redirecionando...</title>
     <style>
         body {
@@ -45,25 +45,16 @@
         <h1>🏦 Figo Payments</h1>
         <div class="loader"></div>
         <p>Redirecionando para a documentação...</p>
-        <p><small>Se não for redirecionado, <a href="./README.html">clique aqui</a></small></p>
+        <p><small>Se não for redirecionado, <a href="/figo-docs/">clique aqui</a></small></p>
     </div>
     
     <script>
-        // Fallback: tentar múltiplas opções
+        // Redireciona para a página principal do GitHub Pages
         setTimeout(function() {
-            // Tenta README.html primeiro
             if (!document.hidden) {
-                window.location.href = './README.html';
+                window.location.href = '/figo-docs/';
             }
         }, 100);
-        
-        // Fallback para Markdown raw se HTML não funcionar
-        setTimeout(function() {
-            if (!document.hidden) {
-                // Se ainda estiver na mesma página, redireciona para o MD
-                window.location.href = 'https://github.com/devmottiva/figo-docs/blob/main/README.md';
-            }
-        }, 3000);
     </script>
 </body>
 </html>
