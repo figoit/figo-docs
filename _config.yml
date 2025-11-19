@@ -1,9 +1,0 @@
-title: Figo Payments - Arquitetura
-description: Documentação Técnica da Arquitetura Cloud AWS
-theme: jekyll-theme-cayman
-markdown: kramdown
-kramdown:
-  input: GFM
-  hard_wrap: false
-  syntax_highlighter: rouge
-
