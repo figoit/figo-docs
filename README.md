@@ -668,12 +668,25 @@ DATADOG_APP_KEY=***
 
 ---
 
+## 🤝 Contribuindo
+
+Para contribuir com melhorias nesta documentação ou na arquitetura:
+
+1. 🔀 Fork o repositório
+2. 🌿 Crie uma branch (`git checkout -b feature/improvement`)
+3. 💾 Commit suas mudanças (`git commit -am 'Add improvement'`)
+4. 📤 Push para a branch (`git push origin feature/improvement`)
+5. 🎯 Abra um Pull Request
+
+---
+
 ## 📞 Suporte
 
 Para questões sobre a arquitetura ou implementação:
 
-- 📧 Email: lucas@figopay.com.br
+- 📧 Email: arquitetura@figopayments.com
 - 💬 Slack: #figo-architecture
+- 📖 Wiki: [Confluence - Figo Architecture](https://wiki.company.com/figo)
 
 ---
 
