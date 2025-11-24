@@ -1,3 +1,8 @@
+---
+layout: default
+title: Figo Payments - Arquitetura
+---
+
 # 🏦 Arquitetura Inicial Figo Payments
 
 <div align="center">
