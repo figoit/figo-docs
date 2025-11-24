@@ -45,7 +45,7 @@ A plataforma Figo Payments utiliza um conjunto moderno de tecnologias para garan
 
 <table>
 <tr>
-<td align="center" width="50%">
+<td align="center" width="50%" markdown="1">
 
 #### ☕ **Java Spring Boot**
 **Core APIs**
@@ -63,7 +63,7 @@ Framework principal para as APIs core do sistema, responsável pela lógica de n
 - Documentação OpenAPI
 
 </td>
-<td align="center" width="50%">
+<td align="center" width="50%" markdown="1">
 
 #### 🚀 **NestJS**
 **Backend Plataforma Administrativa**
@@ -88,7 +88,7 @@ Framework Node.js para o backend da plataforma administrativa, oferecendo APIs G
 
 <table>
 <tr>
-<td align="center" width="50%">
+<td align="center" width="50%" markdown="1">
 
 #### ⚡ **Next.js**
 **Plataforma Web Administrativa**
@@ -106,7 +106,7 @@ Interface administrativa moderna construída com Next.js, oferecendo Server-Side
 - Responsive Design
 
 </td>
-<td align="center" width="50%">
+<td align="center" width="50%" markdown="1">
 
 #### 📱 **React Native**
 **Aplicativo Mobile**
@@ -132,7 +132,7 @@ Aplicativo mobile multiplataforma para gestão em movimento, com suporte para iO
 
 <table>
 <tr>
-<td align="center" width="33%">
+<td align="center" width="33%" markdown="1">
 
 #### 🍃 **MongoDB**
 **Banco de Dados Principal**
@@ -149,7 +149,7 @@ Database NoSQL para persistência de dados transacionais, documentos e configura
 - Peering com VPC AWS
 
 </td>
-<td align="center" width="33%">
+<td align="center" width="33%" markdown="1">
 
 #### ⚡ **Redis**
 **Cache e Sessões**
@@ -166,7 +166,7 @@ Sistema de cache em memória para otimização de performance e gerenciamento de
 - Job Queues
 
 </td>
-<td align="center" width="33%">
+<td align="center" width="33%" markdown="1">
 
 #### 🔍 **Elasticsearch**
 **Busca e Indexação**
@@ -202,7 +202,7 @@ Engine de busca para indexação e consulta rápida de produtos e logs.
 
 <table>
 <tr>
-<td align="center" width="50%">
+<td align="center" width="50%" markdown="1">
 
 #### 📊 **Datadog**
 **Observabilidade & SIEM**
@@ -219,7 +219,7 @@ Plataforma completa de monitoramento, observabilidade e SIEM (Security Informati
 - Alertas em tempo real
 
 </td>
-<td align="center" width="50%">
+<td align="center" width="50%" markdown="1">
 
 #### 🔐 **Compliance**
 **Certificações de Segurança**
