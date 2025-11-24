@@ -8,6 +8,8 @@ kramdown:
   input: GFM
   hard_wrap: false
   parse_block_html: true
+  parse_span_html: true
+  auto_ids: true
   syntax_highlighter: rouge
   syntax_highlighter_opts:
     block:
