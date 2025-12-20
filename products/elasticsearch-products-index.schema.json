@@ -1,0 +1,155 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "pt_br_analyzer": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "stemmer_plural_portugues",
+            "asciifolding"
+          ]
+        }
+      },
+      "filter": {
+        "stemmer_plural_portugues": {
+          "type": "stemmer",
+          "name": "minimal_portuguese"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "createdAt": { "type": "date" },
+      "updatedAt": { "type": "date" },
+      "isActive": { "type": "boolean" },
+      "name": {
+        "type": "text",
+        "analyzer": "pt_br_analyzer",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "description": { "enabled": false },
+      "keywords": { "type": "text" },
+      "brand": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "keyword" },
+          "name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "categoriesIds": {
+        "type": "keyword"
+      },
+      "categories": {
+        "type": "object",
+        "enabled": false,
+        "properties": {
+          "id": { "type": "keyword", "copy_to": "categoriesIds" },
+          "name": { "type": "keyword" },
+          "level": { "type": "integer" }
+        }
+      },
+      "segmentsIds": { "type": "keyword" },
+      "segments": {
+        "type": "nested",
+        "enabled": false,
+        "properties": {
+          "id": { "type": "keyword", "copy_to": "segmentsIds" },
+          "name": { "type": "keyword" },
+          "slug": { "type": "keyword" }
+        }
+      },
+      "characteristics": {
+        "enabled": false
+      },
+      "technicalSpecifications": {
+        "enabled": false
+      },
+      "skusIds": {
+        "type": "keyword"
+      },
+      "skusCodes": {
+        "type": "keyword"
+      },
+      "skusEans": {
+        "type": "keyword"
+      },
+      "skusIdentifiers": {
+        "type": "keyword"
+      },
+      "skus": {
+        "type": "object",
+        "enabled": "false",
+        "properties": {
+          "id": {
+            "type": "keyword",
+            "copy_to": "skusIds"
+          },
+          "createdAt": { "type": "date" },
+          "updatedAt": { "type": "date" },
+          "isActive": { "type": "boolean" },
+          "code": {
+            "type": "keyword",
+            "copy_to": ["skusCodes", "skusIdentifiers"]
+          },
+          "ean": {
+            "type": "keyword",
+            "copy_to": ["skusEans", "skusIdentifiers"]
+          },
+          "isMaster": { "type": "boolean" },
+          "price": {
+            "type": "object",
+            "enabled": false,
+            "properties": {
+              "updatedAt": { "type": "date" },
+              "promotionalValue": { "type": "double" },
+              "saleValue": { "type": "double" }
+            }
+          },
+          "attributes": {
+            "type": "object",
+            "enabled": false,
+            "properties": {
+              "updateAt": { "type": "date" },
+              "specifications": {
+                "type": "object",
+                "properties": {
+                  "key": { "type": "keyword" },
+                  "value": { "type": "keyword" },
+                  "type": { "type": "keyword" },
+                  "unit": { "type": "keyword" },
+                  "filterable": { "type": "boolean" },
+                  "displayOrder": { "type": "integer" }
+                }
+              }
+            }
+          },
+          "images": {
+            "type": "object",
+            "enabled": false,
+            "properties": {
+              "small": { "type": "keyword" },
+              "medium": { "type": "keyword" },
+              "large": { "type": "keyword" },
+              "zoom": { "type": "keyword" },
+              "order": { "type": "integer" },
+              "isMaster": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

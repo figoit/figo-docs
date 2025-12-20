@@ -1,0 +1,127 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "pt_br_analyzer": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "stemmer_plural_portugues",
+            "asciifolding"
+          ]
+        }
+      },
+      "filter": {
+        "stemmer_plural_portugues": {
+          "type": "stemmer",
+          "name": "minimal_portuguese"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "createdAt": { "type": "date" },
+      "updatedAt": { "type": "date" },
+      "isActive": { "type": "boolean" },
+      "productId": { "type": "keyword" },
+      "skuCode": { "type": "keyword", "enabled": false },
+      "name": {
+        "type": "text",
+        "analyzer": "pt_br_analyzer",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "keywords": { "type": "text" },
+      "brand": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "keyword" },
+          "name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "categoriesIds": {
+        "type": "keyword"
+      },
+      "categories": {
+        "type": "object",
+        "enabled": false, // indexar se tiver agregação das opções disponíveis
+        "properties": {
+          "id": { "type": "keyword", "copy_to": "categoriesIds" },
+          "name": { "type": "keyword" },
+          "level": { "type": "integer" }
+        }
+      },
+      "segmentsIds": { "type": "keyword" },
+      "segments": {
+        "type": "nested",
+        "enabled": false, // indexar se tiver agregação das opções disponíveis
+        "properties": {
+          "id": { "type": "keyword", "copy_to": "segmentsIds" },
+          "name": { "type": "keyword" },
+          "slug": { "type": "keyword" }
+        }
+      },
+      "skusIds": {
+        "type": "keyword"
+      },
+      "skusCodes": {
+        "type": "keyword"
+      },
+      "skusEans": {
+        "type": "keyword"
+      },
+      "skusIdentifiers": {
+        "type": "keyword"
+      },
+      "skusAttributesValues": { "type": "keyword" },
+      "skusAttributes": {
+        "type": "object",
+        "properties": {
+          "colors": { "type": "keyword" },
+          "sizes": { "type": "keyword" },
+          "models": { "type": "keyword" },
+          "voltages": { "type": "keyword" },
+          "specifications": {
+            "type": "nested",
+            "properties": {
+              "key": { "type": "keyword" },
+              "value": { "type": "keyword" },
+              "type": { "type": "keyword" },
+              "unit": { "type": "keyword" },
+              "displayOrder": { "type": "integer" }
+            }
+          }
+        }
+      },
+      "price": {
+        "type": "object",
+        "properties": {
+          "updatedAt": { "type": "date", "enabled": false },
+          "promotionalValue": { "type": "double", "enabled": false },
+          "saleValue": { "type": "double" }
+        }
+      },
+      "priceRange": { "type": "keyword" },
+      "images": {
+        "type": "object",
+        "enabled": false,
+        "properties": {
+          "small": { "type": "keyword" },
+          "medium": { "type": "keyword" },
+          "large": { "type": "keyword" }
+        }
+      }
+    }
+  }
+}
