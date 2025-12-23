@@ -56,6 +56,49 @@ Descritivos de alguns campos:
     - visa salvar de forma concatenada os principais campos de busca do SKU
     - suportará pesquisa de diferentes campos do SKU
 
+### Consultas
+
+Busca pelo nome:
+
+```json
+{
+	"query": {
+		"match": {
+			"name": "camiseta estampada"
+		}
+	}
+}
+```
+
+Busca pelo código SKU:
+
+```json
+{
+	"query": {
+		"term": {
+			"skusCodes": {
+				"value": "URBAN-TS-PRINT-M-01"
+			}
+		}
+	}
+}
+```
+
+Busca pelo EAN:
+
+```json
+{
+	"query": {
+		"term": {
+			"skusEans": {
+				"value": "789000000001"
+			}
+		}
+	}
+}
+```
+
+
 ## Index de Busca de Produtos
 
 Index com a finalidade de ter as informações e a estrutura necessária utilizada na busca de produtos do marketplace.
