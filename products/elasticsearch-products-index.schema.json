@@ -62,12 +62,11 @@
       },
       "segmentsIds": { "type": "keyword" },
       "segments": {
-        "type": "nested",
-        "enabled": false,
+        "type": "object",
         "properties": {
-          "id": { "type": "keyword", "copy_to": "segmentsIds" },
-          "name": { "type": "keyword" },
-          "slug": { "type": "keyword" }
+          "id": { "type": "keyword", "copy_to": "segmentsIds", "index": false },
+          "name": { "type": "keyword", "index": false },
+          "slug": { "type": "keyword", "index": false }
         }
       },
       "characteristics": { "enabled": false },

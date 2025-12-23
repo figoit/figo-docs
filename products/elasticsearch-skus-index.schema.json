@@ -64,7 +64,7 @@
       },
       "segmentsIds": { "type": "keyword" },
       "segments": {
-        "type": "nested",
+        "type": "object",
         "properties": {
           "id": { "type": "keyword", "copy_to": "segmentsIds", "index": false },
           "name": { "type": "keyword", "index": false },

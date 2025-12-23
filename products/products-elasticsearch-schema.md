@@ -98,6 +98,80 @@ Busca pelo EAN:
 }
 ```
 
+Busca pelos identificadores (código SKU, EAN):
+
+```json
+{
+	"query": {
+		"term": {
+			"skusIdentifiers": {
+				"value": "789000000001"
+			}
+		}
+	}
+}
+```
+
+Busca pela marca:
+
+```json
+{
+	"query": {
+		"match": {
+			"brand.name": "Moda Viva"
+		}
+	}
+}
+```
+
+Busca do marketplace (não utilizará esse index):
+
+```json
+{
+	"query": {
+		"multi_match": {
+			"query": "camisa elegance URBAN-TS-PRINT-M-01",
+			"fields": [
+				"name",
+				"skusIdentifiers",
+				"brand.name"
+			],
+			"type": "best_fields"
+		}
+	}
+}
+```
+
+Busca do marketplace com filtro obrigatório de segmento:
+
+```json
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "camisa",
+            "fields": [
+              "skusIdentifiers^3", // maior peso
+              "name", 
+              "brand.name"
+            ],
+            "type": "best_fields"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "term": {
+            "segmentsIds": "moda-verao"
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ## Index de Busca de Produtos
 
