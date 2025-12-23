@@ -23,7 +23,7 @@
     "properties": {
       "createdAt": { "type": "date" },
       "updatedAt": { "type": "date" },
-      "isActive": { "type": "boolean" },
+      "active": { "type": "boolean" },
       "name": {
         "type": "text",
         "analyzer": "pt_br_analyzer",
@@ -99,7 +99,7 @@
           },
           "createdAt": { "type": "date" },
           "updatedAt": { "type": "date" },
-          "isActive": { "type": "boolean" },
+          "active": { "type": "boolean" },
           "code": {
             "type": "keyword",
             "copy_to": ["skusCodes", "skusIdentifiers"]
@@ -108,7 +108,7 @@
             "type": "keyword",
             "copy_to": ["skusEans", "skusIdentifiers"]
           },
-          "isMaster": { "type": "boolean" },
+          "mainSku": { "type": "boolean" },
           "price": {
             "type": "object",
             "enabled": false,
@@ -145,7 +145,7 @@
               "large": { "type": "keyword" },
               "zoom": { "type": "keyword" },
               "order": { "type": "integer" },
-              "isMaster": { "type": "boolean" }
+              "mainSku": { "type": "boolean" }
             }
           }
         }

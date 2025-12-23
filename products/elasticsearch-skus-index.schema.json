@@ -23,7 +23,7 @@
     "properties": {
       "createdAt": { "type": "date" },
       "updatedAt": { "type": "date" },
-      "isActive": { "type": "boolean" },
+      "active": { "type": "boolean" },
       "productId": { "type": "keyword" },
       "skuCode": { "type": "keyword", "index": false },
       "name": {

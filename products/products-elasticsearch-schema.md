@@ -148,3 +148,45 @@ Descritivos de alguns campos:
     - terá o valor do SKU agregador
     - suportará pesquisa de ranges de valor customizado (caso necessário) e ordenação do resultado pelo preço
 
+## Análise dos Indexes
+
+#### Configurações (Settings)
+
+- Analisador `pt_br_analyzer`: Foi configurado um analisador customizado para o português do Brasil.
+    - Tokenizer `standard`: Divide o texto em palavras com base nas regras do Unicode.
+    - Filtros:
+    - lowercase: Converte todo o texto para minúsculas.
+    - stemmer_plural_portugues: Utiliza um stemmer (radicalizador) para o português, o que permite que buscas por "sapato" também encontrem "sapatos".
+    - asciifolding: Remove acentos e diacríticos (ex: maçã se torna maca), tornando a busca insensível a acentos.
+
+Essa configuração é ideal para buscas de texto em português, pois normaliza os termos de busca e os dados indexados.
+
+#### Mapeamentos (Mappings)
+
+A estrutura dos documentos foi desenhada para otimizar tanto a busca por texto quanto a aplicação de filtros.
+
+- Campos de Texto Buscáveis:
+    - name: É o principal campo de busca, utilizando o pt_br_analyzer. Possui também um subcampo keyword para correspondências exatas, agregações e ordenação.
+    - keywords: Um campo de texto para palavras-chave adicionais.
+
+- Campos para Filtragem (Keywords):
+    - brand.id, categoriesIds, segmentsIds, skusIds, skusCodes, skusEans, skusIdentifiers: São campos do tipo keyword, otimizados para filtros rápidos e exatos.
+
+- Estratégia `copy_to`:
+    - O schema utiliza a diretiva copy_to de forma inteligente para denormalizar dados. Por exemplo, o ID de cada categoria dentro do objeto categories é copiado para o campo categoriesIds no nível raiz do documento.
+    - Vantagem: Isso permite filtrar produtos por ID de categoria (categoriesIds) de forma muito eficiente, sem a necessidade de realizar buscas em objetos aninhados, que são mais lentos. A mesma técnica é aplicada para segmentos e SKUs.
+
+- Campos Desabilitados (`"enabled": false`):
+    - description, categories, segments, characteristics, technicalSpecifications e a maior parte do objeto skus estão configurados com "enabled": false.
+    - Impacto: O conteúdo desses campos é apenas armazenado, mas não é indexado e, portanto, não pode ser usado em buscas ou filtros. Isso é uma otimização para reduzir o tamanho do índice e acelerar a indexação, já que esses dados são ricos em detalhes, mas provavelmente só são necessários ao exibir o produto final, e não para encontrá-lo.
+
+#### Resumo da Análise
+
+1. Performance: O schema é otimizado para performance. A desabilitação de campos não essenciais para a busca e o uso de copy_to para criar campos de filtro denormalizados são excelentes práticas.
+2. Busca em Português: A busca por nome do produto é robusta e adaptada ao idioma português, lidando com plural, acentos e caixa alta/baixa.
+3. Intenção Clara: A estrutura do índice deixa clara a intenção:
+    - Encontrar produtos: Principalmente pelo campo name.
+    - Filtrar resultados: Por ID da marca, IDs de categorias/segmentos e identificadores dos SKUs (código, EAN).
+    - Exibir detalhes: Os campos desabilitados são armazenados para que possam ser recuperados e exibidos na página de detalhes do produto, mesmo que não sejam pesquisáveis.
+4. Observação: O campo segments é definido como "type": "nested" mas também está desabilitado. O tipo nested só tem efeito sobre dados indexados, portanto, nesse caso, ele se comporta como um campo object normal que não é indexado.
+

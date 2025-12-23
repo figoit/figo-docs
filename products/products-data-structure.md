@@ -7,7 +7,7 @@
   _id: ObjectId,
   createdAt: Date,
   updatedAt: Date,
-  isActive: Boolean,
+  active: Boolean,
   name: String,
   description: String,
   keywords: String,
@@ -48,10 +48,10 @@
     _id: ObjectId,
     createdAt: Date,
     updatedAt: Date,
-    isActive: Boolean,
+    active: Boolean,
     code: String,
     ean: String,
-    isMaster: Boolean,
+    mainSku: Boolean,
     price: {
       updatedAt: Date,
       promotionalValue: Decimal128,
@@ -80,7 +80,7 @@
       large: String,
       zoom: String,
       order: Number,
-      isMaster: Boolean,
+      mainSku: Boolean,
     }>,
   }>
 }
@@ -107,7 +107,7 @@
 - **`_id`**: Unique product identifier (MongoDB ObjectId)
 - **`createdAt`**: Product creation timestamp
 - **`updatedAt`**: Last product update timestamp
-- **`isActive`**: Product active status flag
+- **`active`**: Product active status flag
 - **`name`**: Product name/title
 - **`description`**: Detailed product description (supports HTML)
 - **`keywords`**: SEO keywords and search metadata
@@ -239,8 +239,8 @@ categories: {
   - **`updatedAt`**: SKU last update timestamp
   - **`code`**: Internal SKU code
   - **`ean`**: EAN/barcode number
-  - **`isActive`**: SKU active status in the system
-  - **`isMaster`**: Flag indicating if this is the master/default SKU
+  - **`active`**: SKU active status in the system
+  - **`mainSku`**: Flag indicating if this is the master/default SKU
   - **`segments`**: Array of segments this SKU belongs to (can differ from product segments)
     - **`_id`**: Segment unique identifier
     - **`name`**: Segment display name
@@ -332,7 +332,7 @@ specifications: [
   - **`large`**: Large size image URL (500x500)
   - **`zoom`**: Zoom/high-resolution image URL (1000x1000)
   - **`order`**: Display order/position
-  - **`isMaster`**: Flag indicating if this is the primary image
+  - **`mainSku`**: Flag indicating if this is the primary image
 
 ## Design Considerations
 
@@ -358,7 +358,7 @@ This schema uses **strategic denormalization** for:
 
 ```javascript
 // Recommended indexes for optimal query performance
-db.products.createIndex({ "isActive": 1, "updatedAt": -1 })
+db.products.createIndex({ "active": 1, "updatedAt": -1 })
 db.products.createIndex({ "brand._id": 1 })
 
 // Category indexes - flexible hierarchy
@@ -368,9 +368,9 @@ db.products.createIndex({ "categories.lastCategory.parentId": 1 })
 db.products.createIndex({ "categories.hierarchy._id": 1 })
 db.products.createIndex({ "categories.hierarchy.level": 1 })
 
-db.products.createIndex({ "segments._id": 1, "isActive": 1 })
+db.products.createIndex({ "segments._id": 1, "active": 1 })
 db.products.createIndex({ "segments.slug": 1 })
-db.products.createIndex({ "skus.segments._id": 1, "skus.isActive": 1 })
+db.products.createIndex({ "skus.segments._id": 1, "skus.active": 1 })
 db.products.createIndex({ "skus.segments.slug": 1 })
 db.products.createIndex({ "storeReferenceId": 1 })
 db.products.createIndex({ "skus.ean": 1 })
@@ -449,7 +449,7 @@ async function getCategoryTree(departmentId) {
   return await db.products.aggregate([
     { $match: { 
       "categories.lastCategory.departmentId": departmentId,
-      "isActive": true 
+      "active": true 
     }},
     { $unwind: "$categories.hierarchy" },
     { $group: {
@@ -474,11 +474,11 @@ async function getCategoryTree(departmentId) {
 db.products.aggregate([
   { $match: { 
     "segments.slug": "moda",
-    "isActive": true 
+    "active": true 
   }},
   { $unwind: "$skus" },
   { $match: { 
-    "skus.isActive": true,
+    "skus.active": true,
     "skus.attributes.specifications": {
       $elemMatch: {
         key: "size",
@@ -509,7 +509,7 @@ db.products.aggregate([
   { $match: { "segments.slug": "moda" } },
   { $unwind: "$skus" },
   { $match: {
-    "skus.isActive": true,
+    "skus.active": true,
     "skus.attributes.colors": "black",
     $and: [
       {
@@ -569,7 +569,7 @@ async function getSegmentFilters(segmentSlug) {
   const filters = await db.products.aggregate([
     { $match: { 
       "segments.slug": segmentSlug,
-      "isActive": true 
+      "active": true 
     }},
     { $unwind: "$skus" },
     { $unwind: "$skus.attributes.specifications" },
@@ -659,13 +659,13 @@ async function getSegmentFilters(segmentSlug) {
 // Aggregate to "explode" products by SKU
 db.products.aggregate([
   // Match segment at SKU level
-  { $match: { "skus.segments.slug": "moda", "isActive": true } },
+  { $match: { "skus.segments.slug": "moda", "active": true } },
   
   // Unwind SKUs to create one document per SKU
   { $unwind: "$skus" },
   
   // Filter only SKUs in this segment
-  { $match: { "skus.segments.slug": "moda", "skus.isActive": true } },
+  { $match: { "skus.segments.slug": "moda", "skus.active": true } },
   
   // Project fields for listing card
   { $project: {
@@ -763,8 +763,8 @@ db.products.aggregate([
 
 This schema follows the convention of prefixing boolean fields with **`is`**:
 
-- `isActive` instead of `active` or `activeStatus`
-- `isMaster` instead of `master`
+- `active` instead of `active` or `activeStatus`
+- `mainSku` instead of `master`
 - `isStoreActive` instead of `storeActiveStatus`
 
 This makes the code more readable and clearly indicates boolean values.
@@ -784,7 +784,7 @@ All monetary values use **`Decimal128`** type to ensure:
   "_id": ObjectId("507f1f77bcf86cd799439011"),
   "createdAt": ISODate("2024-01-15T10:30:00Z"),
   "updatedAt": ISODate("2024-12-18T09:00:00Z"),
-  "isActive": true,
+  "active": true,
   "name": "Fritadeira Sem Óleo Air Fryer Philco Jumbo 5,2L - Preta",
   "description": "Uma vida mais saudável...",
   "keywords": "fritadeira, air fryer, philco",
@@ -846,8 +846,8 @@ All monetary values use **`Decimal128`** type to ensure:
       "updatedAt": ISODate("2024-12-18T09:00:00Z"),
       "code": "12729700",
       "ean": "7891356067013",
-      "isActive": true,
-      "isMaster": true,
+      "active": true,
+      "mainSku": true,
       "price": {
         "updatedAt": ISODate("2024-12-18T09:00:00Z"),
         "saleValue": Decimal128("379.90"),
@@ -874,8 +874,8 @@ All monetary values use **`Decimal128`** type to ensure:
       "updatedAt": ISODate("2024-12-18T09:00:00Z"),
       "code": "12729701",
       "ean": "7891356067020",
-      "isActive": true,
-      "isMaster": false,
+      "active": true,
+      "mainSku": false,
       "price": {
         "updatedAt": ISODate("2024-12-18T09:00:00Z"),
         "saleValue": Decimal128("379.90"),
@@ -907,7 +907,7 @@ All monetary values use **`Decimal128`** type to ensure:
   "_id": ObjectId("607f1f77bcf86cd799439022"),
   "createdAt": ISODate("2024-06-10T14:20:00Z"),
   "updatedAt": ISODate("2024-12-18T09:00:00Z"),
-  "isActive": true,
+  "active": true,
   "name": "Camiseta Nike Sportswear Essential Feminina",
   "description": "Camiseta básica de algodão com caimento moderno e confortável...",
   "keywords": "camiseta, nike, feminina, algodao, basica",
@@ -979,8 +979,8 @@ All monetary values use **`Decimal128`** type to ensure:
       "updatedAt": ISODate("2024-12-18T09:00:00Z"),
       "code": "NIKE-ESS-WHT-M",
       "ean": "7891234567890",
-      "isActive": true,
-      "isMaster": true,
+      "active": true,
+      "mainSku": true,
       "price": {
         "updatedAt": ISODate("2024-12-18T09:00:00Z"),
         "saleValue": Decimal128("89.90"),
@@ -1008,8 +1008,8 @@ All monetary values use **`Decimal128`** type to ensure:
       "updatedAt": ISODate("2024-12-18T09:00:00Z"),
       "code": "NIKE-ESS-BLK-M",
       "ean": "7891234567891",
-      "isActive": true,
-      "isMaster": false,
+      "active": true,
+      "mainSku": false,
       "price": {
         "updatedAt": ISODate("2024-12-18T09:00:00Z"),
         "saleValue": Decimal128("89.90"),
@@ -1037,8 +1037,8 @@ All monetary values use **`Decimal128`** type to ensure:
       "updatedAt": ISODate("2024-12-18T09:00:00Z"),
       "code": "NIKE-ESS-WHT-G",
       "ean": "7891234567892",
-      "isActive": true,
-      "isMaster": false,
+      "active": true,
+      "mainSku": false,
       "price": {
         "updatedAt": ISODate("2024-12-18T09:00:00Z"),
         "saleValue": Decimal128("89.90"),
