@@ -25,7 +25,7 @@
       "updatedAt": { "type": "date" },
       "isActive": { "type": "boolean" },
       "productId": { "type": "keyword" },
-      "skuCode": { "type": "keyword", "enabled": false },
+      "skuCode": { "type": "keyword", "index": false },
       "name": {
         "type": "text",
         "analyzer": "pt_br_analyzer",
@@ -107,8 +107,8 @@
       "price": {
         "type": "object",
         "properties": {
-          "updatedAt": { "type": "date", "enabled": false },
-          "promotionalValue": { "type": "double", "enabled": false },
+          "updatedAt": { "type": "date", "index": false },
+          "promotionalValue": { "type": "double", "index": false },
           "saleValue": { "type": "double" }
         }
       },
