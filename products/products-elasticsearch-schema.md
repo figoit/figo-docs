@@ -62,13 +62,13 @@ O ID do documento no index será o ID do produto no banco de dados.
 
 Descritivos de alguns campos:
 
+- `segmentsIds`:
+    - visa salvar os IDs dos segmentos em que o produto está vinculado
+    - suportará a busca pelo ID do segmento desejado
 - `categoriesIds`:
     - visa salvar os IDs da hierarquia de categorias que o produto está inserindo
     - suportará a busca pelo ID da categoria desejada
     - filtrar apenas o ID da categoria mais aninhada no filtro para encontrar os produtos de uma determinada classificação (departamento, categoria ou subcategoria)
-- `segmentsIds`:
-    - visa salvar os IDs dos segmentos em que o produto está vinculado
-    - suportará a busca pelo ID do segmento desejado
 - `skusIds`:
     - visa salvar os IDs dos SKUs
     - suportará a busca pelo ID do SKU
@@ -78,135 +78,6 @@ Descritivos de alguns campos:
 - `skusIdentifiers`:
     - visa salvar de forma concatenada os principais campos de busca do SKU
     - suportará pesquisa de diferentes campos do SKU
-
-### Consultas
-
-Busca pelo nome:
-
-```json
-{
-	"query": {
-		"match": {
-			"name": "camiseta estampada"
-		}
-	}
-}
-```
-
-Busca pelo código SKU:
-
-```json
-{
-	"query": {
-		"term": {
-			"skusCodes": {
-				"value": "URBAN-TS-PRINT-M-01"
-			}
-		}
-	}
-}
-```
-
-Busca pelo EAN:
-
-```json
-{
-	"query": {
-		"term": {
-			"skusEans": {
-				"value": "789000000001"
-			}
-		}
-	}
-}
-```
-
-Busca pelos identificadores (código SKU, EAN):
-
-```json
-{
-	"query": {
-		"term": {
-			"skusIdentifiers": {
-				"value": "789000000001"
-			}
-		}
-	}
-}
-```
-
-Busca pela marca:
-
-```json
-{
-	"query": {
-		"match": {
-			"brand.name": "Moda Viva"
-		}
-	}
-}
-```
-
-Busca pela categoria:
-
-```json
-{
-	"query": {
-		"term": {
-			"categoriesIds": "vestuario"
-		}
-	}
-}
-```
-
-Busca do marketplace (não utilizará esse index):
-
-```json
-{
-	"query": {
-		"multi_match": {
-			"query": "camisa elegance URBAN-TS-PRINT-M-01",
-			"fields": [
-				"skusIdentifiers^3",
-				"name^2",
-				"brand.name"
-			],
-			"type": "most_fields"
-		}
-	}
-}
-```
-
-Busca do marketplace com filtro obrigatório de segmento:
-
-```json
-{
-  "query": {
-    "bool": {
-      "must": [
-        {
-          "multi_match": {
-            "query": "camisa",
-            "fields": [
-              "skusIdentifiers^3", // maior peso
-              "name^2", 
-              "brand.name"
-            ],
-            "type": "most_fields"
-          }
-        }
-      ],
-      "filter": [
-        {
-          "term": {
-            "segmentsIds": "moda-verao"
-          }
-        }
-      ]
-    }
-  }
-}
-```
 
 ## Index de Busca de Produtos
 
@@ -338,7 +209,152 @@ A estrutura dos documentos foi desenhada para otimizar tanto a busca por texto q
     - Exibir detalhes: Os campos desabilitados são armazenados para que possam ser recuperados e exibidos na página de detalhes do produto, mesmo que não sejam pesquisáveis.
 4. Observação: O campo segments é definido como "type": "nested" mas também está desabilitado. O tipo nested só tem efeito sobre dados indexados, portanto, nesse caso, ele se comporta como um campo object normal que não é indexado.
 
-### Consultas
+## Consultas
+
+Campos que devem ser utilizados no `filter`:
+
+- `segmentsIds`
+- `categoriesIds`
+
+Orientações dos campos:
+
+- `skusIds`: busca específica pelo ID do SKU
+- `skusCodes`: busca específica por código SKU
+- `skusEans`: busca específica por EAN
+- `skusIdentifiers`: busca de SKU com filtro mais livre
+
+Utilizar o operador `multi_match` para buscas em vários campos.
+
+### Busca no Index Geral de Produtos
+
+Busca pelo nome:
+
+```json
+{
+	"query": {
+		"match": {
+			"name": "camiseta estampada"
+		}
+	}
+}
+```
+
+Busca pelo código SKU:
+
+```json
+{
+	"query": {
+		"term": {
+			"skusCodes": {
+				"value": "URBAN-TS-PRINT-M-01"
+			}
+		}
+	}
+}
+```
+
+Busca pelo EAN:
+
+```json
+{
+	"query": {
+		"term": {
+			"skusEans": {
+				"value": "789000000001"
+			}
+		}
+	}
+}
+```
+
+Busca pelos identificadores (código SKU, EAN):
+
+```json
+{
+	"query": {
+		"term": {
+			"skusIdentifiers": {
+				"value": "789000000001"
+			}
+		}
+	}
+}
+```
+
+Busca pela marca:
+
+```json
+{
+	"query": {
+		"match": {
+			"brand.name": "Moda Viva"
+		}
+	}
+}
+```
+
+Busca pela categoria:
+
+```json
+{
+	"query": {
+		"term": {
+			"categoriesIds": "vestuario"
+		}
+	}
+}
+```
+
+Busca do marketplace (não utilizará esse index):
+
+```json
+{
+	"query": {
+		"multi_match": {
+			"query": "camisa elegance URBAN-TS-PRINT-M-01",
+			"fields": [
+				"skusIdentifiers^3",
+				"name^2",
+				"brand.name"
+			],
+			"type": "most_fields"
+		}
+	}
+}
+```
+
+Busca do marketplace com filtro obrigatório de segmento:
+
+```json
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "camisa",
+            "fields": [
+              "skusIdentifiers^3", // maior peso
+              "name^2", 
+              "brand.name"
+            ],
+            "type": "most_fields"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "term": {
+            "segmentsIds": "moda-verao"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### Busca no Index de SKUs
 
 Busca pelo nome:
 
@@ -437,10 +453,10 @@ Busca do marketplace com filtro obrigatório de segmento:
 				{
 					"multi_match": {
 						"fields": [
-							"skusIdentifiers^3",
+							"skusIdentifiers^4",
+							"brand.name^3",
 							"name^2",
 							"skusAttributesValues",
-							"brand.name",
 							"keywords"
 						],
 						"query": "blusa social G",

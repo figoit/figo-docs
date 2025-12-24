@@ -16,27 +16,34 @@ NUM_BRANDS_TO_USE = 10
 # --- 2. POOLS DE DADOS ---
 
 BRANDS = [
-    {"id": "1", "name": "Nike"},
-    {"id": "2", "name": "Adidas"},
-    {"id": "3", "name": "Reserva"},
+    {"id": "1", "name": "Xinguilingui"},
+    {"id": "2", "name": "Nike"},
+    {"id": "3", "name": "Adidas"},
     {"id": "4", "name": "Vestem"},
     {"id": "5", "name": "Puma"},
-    {"id": "6", "name": "Calvin Klein"},
+    {"id": "6", "name": "Reserva"},
     {"id": "7", "name": "Hering"},
     {"id": "8", "name": "Zara"},
     {"id": "9", "name": "Lacoste"},
-    {"id": "10", "name": "Levi's"}
+    {"id": "10", "name": "Levi's"},
+    {"id": "11", "name": "Piticas"},
+    {"id": "12", "name": "Calvin Klein"},
+    {"id": "13", "name": "Louis Vuitton"},
+    {"id": "14", "name": "Hugo Boss"},
+    {"id": "15", "name": "Emporio Armani"},
+    {"id": "16", "name": "Michael Kros"},
+    {"id": "17", "name": "Tommy Hilfiger"},
 ]
 
 # Tipos de produtos com materiais associados para o campo 'specifications'
 PRODUCT_TYPES = {
     "Camiseta": ["Algodão", "Poliéster", "Malha Fria"],
     "Calça": ["Jeans", "Sarja", "Moletom"],
-    "Blusa": ["Seda", "Viscose", "Crepe"],
+    "Blusa": ["Seda", "Viscose", "Crepe", "Corta Vento"],
     "Saia": ["Couro Sintético", "Tafetá", "Linho"],
     "Vestido": ["Viscolycra", "Canelado", "Renda"],
     "Cueca": ["Microfibra", "Modal", "Algodão Pima"],
-    "Calcinha": ["Renda", "Lycra", "Cotton"],
+    "Calcinha": ["Renda", "Lycra", "Cotton", "Sexy"],
     "Jaqueta": ["Nylon", "Couro", "Jeans"],
     "Meia": ["Lã", "Poli-algodão", "Acrílico"],
     "Bermuda": ["Tactel", "Moletinho", "Sarja"],
@@ -45,7 +52,7 @@ PRODUCT_TYPES = {
     "Tênis": ["Lona", "Material Sintético"]
 }
 MODELS = ['Basic', 'Daily', 'Slim', 'Regular', 'Comfort', 'Classic', 'Styled']
-COLORS = ["Preto", "Branco", "Azul Marinho", "Cinza Mescla", "Vermelho", "Verde Musgo", "Amarelo", "Rosa", "Bege"]
+COLORS = ["Preto", "Branco", "Azul Marinho", "Cinza Mescla", "Vermelho", "Verde Musgo", "Amarelo", "Rosa", "Bege", "Rosa Choque"]
 SIZES = ["PP", "P", "M", "G", "GG", "XG"]
 SEGMENTS = [
     {"id": "seg-1", "name": "Moda", "slug": "moda"},
@@ -124,8 +131,8 @@ def generate_product_document(product_id: str, base_name: str, brand: dict, prod
             skus_attributes_values.add(spec['value'])
 
     # --- Monta o documento final ---
-    sale_price = round(random.uniform(49.90, 499.90), 2)
-    promotional_price = round(sale_price * random.uniform(0.7, 0.95), 2) if random.random() > 0.5 else sale_price
+    price_from = round(random.uniform(49.90, 499.90), 2)
+    sale_value = round(price_from * random.uniform(0.7, 0.95), 2) if random.random() > 0.5 else price_from
 
     document = {
         "createdAt": now_iso,
@@ -140,11 +147,11 @@ def generate_product_document(product_id: str, base_name: str, brand: dict, prod
         "categories": [random.choice(CATEGORIES)],
         "price": {
             "updatedAt": now_iso,
-            "promotionalValue": promotional_price,
-            "saleValue": sale_price
+            "promotionalValue": price_from,
+            "saleValue": sale_value
         },
-        "priceRange": f"{int(sale_price // 50) * 50}-{(int(sale_price // 50) + 1) * 50}",
-        "images": { # Desabilitado no schema
+        "priceRange": f"{int(sale_value // 50) * 50}-{(int(sale_value // 50) + 1) * 50}",
+        "images": {
             "small": "", "medium": "", "large": ""
         },
         "skus": skus_for_document,
