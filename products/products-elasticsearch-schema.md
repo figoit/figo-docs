@@ -472,7 +472,7 @@ Busca do marketplace com filtro obrigatório de segmento:
 							"skusAttributesValues",
 							"keywords"
 						],
-						"query": "blusa social G",
+						"query": "camiseta reserva preto",
 						"type": "most_fields"
 					}
 				}

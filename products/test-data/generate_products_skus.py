@@ -6,15 +6,14 @@ from datetime import datetime, timezone
 # --- 1. CONFIGURAÇÃO ---
 # Quantidade de "conceitos" de produto a serem gerados (ex: "Camiseta Nike").
 # O número final de documentos será maior, pois cada conceito pode ter várias cores.
-TOTAL_PRODUCT_CONCEPTS = 4000
+TOTAL_PRODUCT_CONCEPTS = 20000
 
 # Quantas marcas e tipos de produto devem ser sorteados dos pools de dados abaixo.
 NUM_PRODUCT_TYPES_TO_USE = 13
-NUM_BRANDS_TO_USE = 10
+NUM_BRANDS_TO_USE = 17
 
 
 # --- 2. POOLS DE DADOS ---
-
 BRANDS = [
     {"id": "1", "name": "Xinguilingui"},
     {"id": "2", "name": "Nike"},
@@ -51,6 +50,7 @@ PRODUCT_TYPES = {
     "Sapato": ["Couro", "Camurça"],
     "Tênis": ["Lona", "Material Sintético"]
 }
+
 MODELS = ['Basic', 'Daily', 'Slim', 'Regular', 'Comfort', 'Classic', 'Styled']
 COLORS = ["Preto", "Branco", "Azul Marinho", "Cinza Mescla", "Vermelho", "Verde Musgo", "Amarelo", "Rosa", "Bege", "Rosa Choque"]
 SIZES = ["PP", "P", "M", "G", "GG", "XG"]
