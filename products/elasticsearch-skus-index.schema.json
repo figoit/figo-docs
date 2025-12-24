@@ -92,7 +92,15 @@
       "skusCodes": { "type": "keyword" },
       "skusEans": { "type": "keyword" },
       "skusIdentifiers": { "type": "keyword" },
-      "skusAttributesValues": { "type": "keyword" },
+      "skusAttributesValues": {
+        "type": "text",
+        "analyzer": "pt_br_analyzer",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
       "skus": {
         "type": "object",
         "properties": {
@@ -125,10 +133,10 @@
           "attributes": {
             "type": "object",
             "properties": {
-              "color": { "type": "keyword", "index": false },
-              "size": { "type": "keyword", "index": false },
-              "model": { "type": "keyword", "index": false },
-              "voltage": { "type": "keyword", "index": false },
+              "color": { "type": "keyword", "index": false, "copy_to": "skusAttributesValues" },
+              "size": { "type": "keyword", "index": false, "copy_to": "skusAttributesValues" },
+              "model": { "type": "keyword", "index": false, "copy_to": "skusAttributesValues" },
+              "voltage": { "type": "keyword", "index": false, "copy_to": "skusAttributesValues" },
               "specifications": {
                 "type": "object",
                 "properties": {

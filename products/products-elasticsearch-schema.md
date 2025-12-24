@@ -144,11 +144,11 @@ Busca do marketplace (não utilizará esse index):
 		"multi_match": {
 			"query": "camisa elegance URBAN-TS-PRINT-M-01",
 			"fields": [
-				"name",
-				"skusIdentifiers",
+				"skusIdentifiers^3",
+				"name^2",
 				"brand.name"
 			],
-			"type": "best_fields"
+			"type": "most_fields"
 		}
 	}
 }
@@ -166,10 +166,10 @@ Busca do marketplace com filtro obrigatório de segmento:
             "query": "camisa",
             "fields": [
               "skusIdentifiers^3", // maior peso
-              "name", 
+              "name^2", 
               "brand.name"
             ],
-            "type": "best_fields"
+            "type": "most_fields"
           }
         }
       ],
@@ -315,3 +315,116 @@ A estrutura dos documentos foi desenhada para otimizar tanto a busca por texto q
     - Exibir detalhes: Os campos desabilitados são armazenados para que possam ser recuperados e exibidos na página de detalhes do produto, mesmo que não sejam pesquisáveis.
 4. Observação: O campo segments é definido como "type": "nested" mas também está desabilitado. O tipo nested só tem efeito sobre dados indexados, portanto, nesse caso, ele se comporta como um campo object normal que não é indexado.
 
+### Consultas
+
+Busca pelo nome:
+
+```json
+{
+	"query": {
+		"match": {
+			"name": "calça"
+		}
+	}
+}
+```
+
+Busca pelo código SKU:
+
+```json
+{
+	"query": {
+		"term": {
+			"skusCodes": {
+				"value": "MJ-PRA-P"
+			}
+		}
+	}
+}
+```
+
+Busca pelo EAN:
+
+```json
+{
+	"query": {
+		"term": {
+			"skusEans": {
+				"value": "789000000001"
+			}
+		}
+	}
+}
+```
+
+Busca pelos identificadores (código SKU, EAN):
+
+```json
+{
+	"query": {
+		"term": {
+			"skusIdentifiers": {
+				"value": "789000000100"
+			}
+		}
+	}
+}
+```
+
+Busca pela marca:
+
+```json
+{
+	"query": {
+		"match": {
+			"brand.name": "alta classe"
+		}
+	}
+}
+```
+
+Busca pela categoria:
+
+```json
+{
+	"query": {
+		"term": {
+			"categoriesIds": "cat-01-01"
+		}
+	}
+}
+```
+
+Busca do marketplace com filtro obrigatório de segmento:
+
+```json
+{
+	"query": {
+		"bool": {
+			"filter": [
+				{
+					"term": {
+						"segmentsIds": {
+							"value": "seg-01"
+						}
+					}
+				}
+			],
+			"must": [
+				{
+					"multi_match": {
+						"fields": [
+							"skusIdentifiers^3",
+							"name^2",
+							"skusAttributesValues",
+							"brand.name"
+						],
+						"query": "blusa social G",
+						"type": "most_fields"
+					}
+				}
+			]
+		}
+	}
+}
+```
