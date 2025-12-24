@@ -124,6 +124,18 @@ Busca pela marca:
 }
 ```
 
+Busca pela categoria:
+
+```json
+{
+	"query": {
+		"term": {
+			"categoriesIds": "vestuario"
+		}
+	}
+}
+```
+
 Busca do marketplace (não utilizará esse index):
 
 ```json
@@ -253,10 +265,6 @@ Descritivos de alguns campos:
     - visa salvar os valores dos atributos simples (modelo, cor, tamanho, voltagem) dos SKUs
     - suportará pesquisa de atributos onde o valor do atributo é fixo, sem muitas variações
     - formato para salvar no campo: `${chave_atributo}_${valor_atributo}`
-- `skusAttributes`:
-    - visa salvar todos os atributos dos SKUs
-    - suportará pesquisas mais elaboradas dos SKUs com o custo de performance por ser um nested
-    - deve ser utilizado caso o segmento precise de um filtro avançado
 - `priceRange`:
     - visa suportar pesquisa por faixas de valor fixo (oferecido na maioria dos ecommerces)
     - podemos limitar as variações disponíveis e gerar menos impacto nas consultas

@@ -53,11 +53,10 @@
       "categoriesIds": { "type": "keyword" },
       "categories": {
         "type": "object",
-        "enabled": false,
         "properties": {
-          "id": { "type": "keyword", "copy_to": "categoriesIds" },
-          "name": { "type": "keyword" },
-          "level": { "type": "integer" }
+          "id": { "type": "keyword", "index": false, "copy_to": "categoriesIds" },
+          "name": { "type": "keyword", "index": false },
+          "level": { "type": "integer", "index": false }
         }
       },
       "segmentsIds": { "type": "keyword" },
@@ -83,7 +82,6 @@
             "index": false,
             "copy_to": "skusIds"
           },
-          "createdAt": { "type": "date", "index": false },
           "updatedAt": { "type": "date", "index": false },
           "active": { "type": "boolean", "index": false },
           "code": {
