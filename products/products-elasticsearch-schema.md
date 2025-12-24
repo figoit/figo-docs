@@ -440,7 +440,8 @@ Busca do marketplace com filtro obrigatório de segmento:
 							"skusIdentifiers^3",
 							"name^2",
 							"skusAttributesValues",
-							"brand.name"
+							"brand.name",
+							"keywords"
 						],
 						"query": "blusa social G",
 						"type": "most_fields"
