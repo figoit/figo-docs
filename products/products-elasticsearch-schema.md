@@ -139,13 +139,13 @@ Descritivos de alguns campos:
     - código do SKU com o atributo segregador utilizado no agrupamento
     - não será utilizado nas buscas, usar campo `skusCodes` quando precisar filtrar
     - facilitar a consulta no detalhes de produto (já cair com SKU selecionado)
+- `segmentsIds`:
+    - visa salvar os IDs dos segmentos em que o produto está vinculado
+    - suportará a busca pelo ID do segmento desejado
 - `categoriesIds`:
     - visa salvar os IDs da hierarquia de categorias que o produto está inserindo
     - suportará a busca pelo ID da categoria desejada
     - filtrar apenas o ID da categoria mais aninhada no filtro para encontrar os produtos de uma determinada classificação (departamento, categoria ou subcategoria)
-- `segmentsIds`:
-    - visa salvar os IDs dos segmentos em que o produto está vinculado
-    - suportará a busca pelo ID do segmento desejado
 - `skusIds`:
     - visa salvar os IDs dos SKUs
     - suportará a busca pelo ID do SKU
@@ -211,12 +211,15 @@ A estrutura dos documentos foi desenhada para otimizar tanto a busca por texto q
 
 ## Consultas
 
-Utilizar o operador `multi_match` para buscas em vários campos.
-Utilize o atributo `profile` com valor `true` na raiz da consulta para realizar o profiling da query.
+Utilize o operador `multi_match` para buscas em vários campos.
+
+Utilize o atributo `profile` com valor `true` na raiz da consulta para realizar o [profiling da query](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/search-profile).
 
 Campos que não deveriam ser utilizados em buscas pelos usuários (alto volume vai afetar performance):
 
 - atributos aninhados em `skus`
+- atributos aninhados em `categories`
+- atributos aninhados em `segments`
 
 Campos que devem ser utilizados no `filter`:
 
@@ -372,7 +375,7 @@ Busca pelo nome:
 {
 	"query": {
 		"match": {
-			"name": "calça"
+			"name": "calça daily moletom"
 		}
 	}
 }
@@ -385,7 +388,7 @@ Busca pelo código SKU:
 	"query": {
 		"term": {
 			"skusCodes": {
-				"value": "MJ-PRA-P"
+				"value": "VES-CAL-BEG-XG"
 			}
 		}
 	}
