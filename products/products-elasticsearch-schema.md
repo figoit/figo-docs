@@ -211,10 +211,19 @@ A estrutura dos documentos foi desenhada para otimizar tanto a busca por texto q
 
 ## Consultas
 
+Utilizar o operador `multi_match` para buscas em vários campos.
+Utilize o atributo `profile` com valor `true` na raiz da consulta para realizar o profiling da query.
+
+Campos que não deveriam ser utilizados em buscas pelos usuários (alto volume vai afetar performance):
+
+- atributos aninhados em `skus`
+
 Campos que devem ser utilizados no `filter`:
 
 - `segmentsIds`
-- `categoriesIds`
+- `categoriesIds`:
+    - contém o IDs de todas as categorias na árvore em que o produto está classificado
+    - para uma busca mais eficiente informe apenas o ID da folha na árvore de categorias (ex.: ID da subcategoria)
 
 Orientações dos campos:
 
@@ -222,8 +231,9 @@ Orientações dos campos:
 - `skusCodes`: busca específica por código SKU
 - `skusEans`: busca específica por EAN
 - `skusIdentifiers`: busca de SKU com filtro mais livre
-
-Utilizar o operador `multi_match` para buscas em vários campos.
+- `skusAttributesValues`: busca de atributos dos SKUs
+- `priceRange`: filtro de range de preço no marketplace
+- `price.saleValue`: filtro de valor mais específico no marketplace (evitar)
 
 ### Busca no Index Geral de Produtos
 
