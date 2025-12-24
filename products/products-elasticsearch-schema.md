@@ -1,11 +1,34 @@
 # Elasticsearch - Products Schema
 
+Benchmarks utilizados:
+
+- Vestem:
+	- Não pesquisa pelo atributo, somente o nome do produto (ex.: nome escrito bege mas a cor no atributo é marrom)
+	- Pesquisa: https://vestem.com/BPML473/
+	- Variações de cores do produto:
+		- Preta: https://vestem.com/blusa-manga-longa-moletom-maya-preto-bpml473.out.c0002-vestem/product/176011/?sku=1219743
+		- Marrom: https://vestem.com/blusa-manga-longa-moletom-maya-bege-bpml473.out.c0040-vestem/product/176012/?sku=1219745
+- Reserva:
+	- Parece estar pesquisando pelo nome e pelos atributos (menor prioridade)
+	- Pesquisa: https://www.usereserva.com/camisa%20ml%20pf%20oxford%20color?_q=camisa%20ml%20pf%20oxford%20color&map=ft
+	- Variações:
+		- https://www.usereserva.com/camisa-ml-pf-oxford-color0046781/p?skuId=119577
+		- https://www.usereserva.com/camisa-ml-pf-oxford-color0046781/p?skuId=119570
+		- https://www.usereserva.com/camisa-ml-pf-oxford-color0046781/p?skuId=119563
+
+## Estratégia
+
 Será criado dois indexes para a base de produtos no Elasticsearch: um para detalhes de produtos e outro para busca de produtos.
+
+- Produto: pai e filho
+- SKUs: agrupamentos de SKU pelo atributo segregador
+
+Indexes:
 
 - **Index Principal de Produtos:** index com o mapeamento completo do produto e seus SKUs, visando buscas a partir dos identificadores do produto ou de seus SKUs.
 - **Index de Busca de Produtos:** index com o mapeamento de SKUs visando a busca a partir das variações de produtos, cada produto pode gerar um ou mais documentos nesse index dependendo do segmento (agrupamento dos SKUs de acordo com o atributo segregador).
 
-## Carga
+### Carga
 
 No processo de carga de produtos do marketplace será necessário alimentar o index principal de produtos com o mapeamento completo do produto e todos os indexes de busca de produtos dos segmentos em que o produto está vinculado.
 
