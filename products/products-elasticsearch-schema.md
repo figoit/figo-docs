@@ -18,23 +18,23 @@ Benchmarks utilizados:
 
 ## Estratégia
 
-Será criado dois indexes para a base de produtos no Elasticsearch: um para detalhes de produtos e outro para busca de produtos.
+Será criado dois indexes para a base de produtos no Elasticsearch: um para detalhes de produtos e outro para pesquisa de produtos.
 
 - Produto: pai e filho
 - SKUs: agrupamentos de SKU pelo atributo segregador
 
 Indexes:
 
-- **Index Principal de Produtos:** index com o mapeamento completo do produto e seus SKUs, visando buscas a partir dos identificadores do produto ou de seus SKUs.
-- **Index de Busca de Produtos:** index com o mapeamento de SKUs visando a busca a partir das variações de produtos, cada produto pode gerar um ou mais documentos nesse index dependendo do segmento (agrupamento dos SKUs de acordo com o atributo segregador).
+- **Index Geral de Produtos:** index com o mapeamento completo do produto e seus SKUs, visando buscas a partir dos identificadores do produto ou de seus SKUs.
+- **Index de Pesquisa de Produtos:** index com o mapeamento de SKUs visando a pesquisa a partir das variações de produtos, cada produto pode gerar um ou mais documentos nesse index dependendo do segmento (agrupamento dos SKUs de acordo com o atributo segregador).
 
 ### Carga
 
-No processo de carga de produtos do marketplace será necessário alimentar o index principal de produtos com o mapeamento completo do produto e todos os indexes de busca de produtos dos segmentos em que o produto está vinculado.
+No processo de carga de produtos do marketplace será necessário alimentar o index geral de produtos com o mapeamento completo do produto e todos os indexes de pesquisa de produtos dos segmentos em que o produto está vinculado.
 
-Sendo assim, cada produto no processo de carga terá que atualizar pelo menos dois indexes: index principal de produto e index de busca de produto do seu segmento.
+Sendo assim, cada produto no processo de carga terá que atualizar pelo menos dois indexes: index geral de produto e index de pesquisa de produto do seu segmento.
 
-## Index Principal de Produtos
+## Index Geral de Produtos
 
 Index com a finalidade de ter todas as informações do produto e seus SKUs para ser utilizados no processo em que necessida do detalhamento completo do produto (ex.: página de produto, administração do produto).
 
@@ -64,22 +64,22 @@ Descritivos de alguns campos:
 
 - `segmentsIds`:
     - visa salvar os IDs dos segmentos em que o produto está vinculado
-    - suportará a busca pelo ID do segmento desejado
+    - suportará a pesquisa pelo ID do segmento desejado
 - `categoriesIds`:
     - visa salvar os IDs da hierarquia de categorias que o produto está inserindo
-    - suportará a busca pelo ID da categoria desejada
+    - suportará a pesquisa pelo ID da categoria desejada
     - filtrar apenas o ID da categoria mais aninhada no filtro para encontrar os produtos de uma determinada classificação (departamento, categoria ou subcategoria)
 - `skusIds`:
     - visa salvar os IDs dos SKUs
-    - suportará a busca pelo ID do SKU
+    - suportará a pesquisa pelo ID do SKU
 - `skusEans`:
     - visa salvar os EANs dos SKUs
-    - suportará a busca por EAN
+    - suportará a pesquisa por EAN
 - `skusIdentifiers`:
     - visa salvar de forma concatenada os principais campos de busca do SKU
     - suportará pesquisa de diferentes campos do SKU
 
-## Index de Busca de Produtos
+## Index de Pesquisa de Produtos
 
 Index com a finalidade de ter as informações e a estrutura necessária utilizada na busca de produtos do marketplace.
 
@@ -238,9 +238,9 @@ Orientações dos campos:
 - `priceRange`: filtro de range de preço no marketplace
 - `price.saleValue`: filtro de valor mais específico no marketplace (evitar)
 
-### Busca no Index Geral de Produtos
+### Pesquisa no Index Geral de Produtos
 
-Busca pelo nome:
+Pesquisa pelo nome:
 
 ```json
 {
@@ -252,7 +252,7 @@ Busca pelo nome:
 }
 ```
 
-Busca pelo código SKU:
+Pesquisa pelo código SKU:
 
 ```json
 {
@@ -266,7 +266,7 @@ Busca pelo código SKU:
 }
 ```
 
-Busca pelo EAN:
+Pesquisa pelo EAN:
 
 ```json
 {
@@ -280,7 +280,7 @@ Busca pelo EAN:
 }
 ```
 
-Busca pelos identificadores (código SKU, EAN):
+Pesquisa pelos identificadores (código SKU, EAN):
 
 ```json
 {
@@ -294,7 +294,7 @@ Busca pelos identificadores (código SKU, EAN):
 }
 ```
 
-Busca pela marca:
+Pesquisa pela marca:
 
 ```json
 {
@@ -306,7 +306,7 @@ Busca pela marca:
 }
 ```
 
-Busca pela categoria:
+Pesquisa pela categoria:
 
 ```json
 {
@@ -318,7 +318,7 @@ Busca pela categoria:
 }
 ```
 
-Busca do marketplace (não utilizará esse index):
+Pesquisa do marketplace (não utilizará esse index):
 
 ```json
 {
@@ -336,7 +336,7 @@ Busca do marketplace (não utilizará esse index):
 }
 ```
 
-Busca do marketplace com filtro obrigatório de segmento:
+Pesquisa do marketplace com filtro obrigatório de segmento:
 
 ```json
 {
@@ -367,9 +367,9 @@ Busca do marketplace com filtro obrigatório de segmento:
 }
 ```
 
-### Busca no Index de SKUs
+### Pesquisas no Index de Pesquisa de Produtos
 
-Busca pelo nome:
+Pesquisa pelo nome:
 
 ```json
 {
@@ -381,7 +381,7 @@ Busca pelo nome:
 }
 ```
 
-Busca pelo código SKU:
+Pesquisa pelo código SKU:
 
 ```json
 {
@@ -395,7 +395,7 @@ Busca pelo código SKU:
 }
 ```
 
-Busca pelo EAN:
+Pesquisa pelo EAN:
 
 ```json
 {
@@ -409,7 +409,7 @@ Busca pelo EAN:
 }
 ```
 
-Busca pelos identificadores (código SKU, EAN):
+Pesquisa pelos identificadores (código SKU, EAN):
 
 ```json
 {
@@ -423,7 +423,7 @@ Busca pelos identificadores (código SKU, EAN):
 }
 ```
 
-Busca pela marca:
+Pesquisa pela marca:
 
 ```json
 {
@@ -435,7 +435,7 @@ Busca pela marca:
 }
 ```
 
-Busca pela categoria:
+Pesquisa pela categoria:
 
 ```json
 {
@@ -447,7 +447,7 @@ Busca pela categoria:
 }
 ```
 
-Busca do marketplace com filtro obrigatório de segmento:
+Pesquisa do marketplace com filtro obrigatório de segmento:
 
 ```json
 {
@@ -481,3 +481,571 @@ Busca do marketplace com filtro obrigatório de segmento:
 	}
 }
 ```
+
+## Exemplo de Documentos no Elasticsearch
+
+Um produto com 5 SKUs com variação de cor e tamanho:
+
+- SKU 1: Cor Cinza Mescla e Tamanho P
+- SKU 2: Cor Cinza Mescla e Tamanho M
+- SKU 3: Cor Amarelo e Tamanho M
+- SKU 4: Cor Amarelo e Tamanho XG
+- SKU 5: Cor Amarelo e Tamanho P
+
+### Index Geral de Produtos
+
+O documento no Index Geral de Produtos teria o seguinte formato:
+
+```json
+{
+	"createdAt": "2025-12-21T17:15:37Z",
+	"updatedAt": "2025-12-21T17:15:37Z",
+	"active": true,
+	"name": "Jaqueta Comfort Nylon",
+	"description": "Jaqueta Lacoste",
+	"keywords": "camiseta, algodão, estampada, masculina, casual",
+	"brand": {
+		"id": "9",
+		"name": "Lacoste"
+	},
+	"categories": [
+		{
+			"id": "cat-4",
+			"name": "Lançamentos",
+			"slug": "moda-lancamentos"
+		}
+	],
+	"segments": [
+		{
+			"id": "seg-1",
+			"name": "Moda",
+			"slug": "moda"
+		}
+	],
+	"characteristics": {
+		"material": "Algodão",
+		"lavagem": "À máquina"
+	},
+	"technicalSpecifications": {
+		"gola": "Redonda",
+		"corte": "Regular"
+	},
+	"skus": [
+		{
+			"id": "b603700d-cb12-4712-83a4-0aeac8a62790",
+			"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+			"active": true,
+			"code": "LAC-JAQ-CIN-P",
+			"ean": "9020464650305",
+			"mainSku": true,
+			"price": {
+				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+				"promotionalValue": 284.53,
+				"saleValue": 262.44
+			},
+			"attributes": {
+				"specifications": [
+					{
+						"key": "Material",
+						"value": "Nylon",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 1
+					},
+					{
+						"key": "Origem",
+						"value": "Nacional",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 2
+					},
+					{
+						"key": "cor",
+						"value": "Cinza Mescla"
+					},
+					{
+						"key": "tamanho",
+						"value": "P"
+					},
+					{
+						"key": "Modelo",
+						"value": "Comfort"
+					},
+				]
+			},
+			"images": [
+				{
+					"small": "/images/sku-tshirt-print-m-01-small.jpg",
+					"medium": "/images/sku-tshirt-print-m-01-medium.jpg",
+					"large": "/images/sku-tshirt-print-m-01-large.jpg",
+					"order": 1,
+					"mainSku": true
+				}
+			]
+		},
+		{
+			"id": "6fbc0366-368e-44d9-9c3a-56d05c3f4c4c",
+			"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+			"active": true,
+			"code": "LAC-JAQ-CIN-M",
+			"ean": "7074459223097",
+			"price": {
+				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+				"promotionalValue": 284.53,
+				"saleValue": 262.44
+			},
+			"attributes": {
+				"specifications": [
+					{
+						"key": "Material",
+						"value": "Nylon",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 1
+					},
+					{
+						"key": "Origem",
+						"value": "Nacional",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 2
+					},
+					{
+						"key": "cor",
+						"value": "Cinza Mescla"
+					},
+					{
+						"key": "tamanho",
+						"value": "M"
+					}
+				]
+			},
+			"images": [
+				{
+					"small": "/images/sku-tshirt-print-g-01-small.jpg",
+					"medium": "/images/sku-tshirt-print-g-01-medium.jpg",
+					"large": "/images/sku-tshirt-print-g-01-large.jpg",
+					"order": 1,
+					"mainSku": true
+				}
+			]
+		},
+		{
+			"id": "a31f398b-8a72-4194-9901-995a4de102f3",
+			"updatedAt": "2025-12-24T19:08:15.367903+00:00",
+			"active": true,
+			"code": "LAC-JAQ-AMA-M",
+			"ean": "9251633960049",
+			"price": {
+				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+				"promotionalValue": 284.53,
+				"saleValue": 262.44
+			},
+			"attributes": {
+				"specifications": [
+					{
+						"key": "Material",
+						"value": "Nylon",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 1
+					},
+					{
+						"key": "Origem",
+						"value": "Nacional",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 2
+					}
+					{
+						"key": "cor",
+						"value": "Amarelo"
+					},
+					{
+						"key": "tamanho",
+						"value": "M"
+					}
+				]
+			},
+			"images": [
+				{
+					"small": "/images/sku-tshirt-print-g-01-small.jpg",
+					"medium": "/images/sku-tshirt-print-g-01-medium.jpg",
+					"large": "/images/sku-tshirt-print-g-01-large.jpg",
+					"order": 1,
+					"mainSku": true
+				}
+			]
+		},
+		{
+			"id": "85def573-3021-4c1a-b43e-c089785832b6",
+			"updatedAt": "2025-12-24T19:08:15.367903+00:00",
+			"active": true,
+			"code": "LAC-JAQ-AMA-XG",
+			"ean": "1967041512504",
+			"price": {
+				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+				"promotionalValue": 284.53,
+				"saleValue": 262.44
+			},
+			"attributes": {
+				"specifications": [
+					{
+						"key": "Material",
+						"value": "Nylon",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 1
+					},
+					{
+						"key": "Origem",
+						"value": "Nacional",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 2
+					}
+					{
+						"key": "cor",
+						"value": "Amarelo"
+					},
+					{
+						"key": "tamanho",
+						"value": "XG"
+					}
+				]
+			},
+			"images": [
+				{
+					"small": "/images/sku-tshirt-print-g-01-small.jpg",
+					"medium": "/images/sku-tshirt-print-g-01-medium.jpg",
+					"large": "/images/sku-tshirt-print-g-01-large.jpg",
+					"order": 1,
+					"mainSku": true
+				}
+			]
+		},
+		{
+			"id": "6539ec92-ea9d-453c-85e3-80749289de6e",
+			"updatedAt": "2025-12-24T19:08:15.367903+00:00",
+			"active": true,
+			"code": "LAC-JAQ-AMA-P",
+			"ean": "9540885478505",
+			"price": {
+				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+				"promotionalValue": 284.53,
+				"saleValue": 262.44
+			},
+			"attributes": {
+				"specifications": [
+					{
+						"key": "Material",
+						"value": "Nylon",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 1
+					},
+					{
+						"key": "Origem",
+						"value": "Nacional",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 2
+					}
+					{
+						"key": "cor",
+						"value": "Amarelo"
+					},
+					{
+						"key": "tamanho",
+						"value": "P"
+					}
+				]
+			},
+			"images": [
+				{
+					"small": "/images/sku-tshirt-print-g-01-small.jpg",
+					"medium": "/images/sku-tshirt-print-g-01-medium.jpg",
+					"large": "/images/sku-tshirt-print-g-01-large.jpg",
+					"order": 1,
+					"mainSku": true
+				}
+			]
+		}
+	]
+}
+```
+
+### Index de Pesquisa de Produtos
+
+No Index de Pesquisa de Produtos, onde os produtos são agrupados pelo atributo segregador (ex.: no segmento de moda o atributo é a Cor), teríamos a seguinte divisão:
+
+- Documento Cor Cinza Mescla:
+	- SKU 1: Cor Cinza Mescla e Tamanho P
+	- SKU 2: Cor Cinza Mescla e Tamanho M
+- Documento Cor Amarela:
+	- SKU 1: Cor Amarelo e Tamanho M
+	- SKU 2: Cor Amarelo e Tamanho XG
+	- SKU 3: Cor Amarelo e Tamanho P
+
+O produto teria dois documentos no Index de Pesquisa de SKUs com os seguintes formatos:
+
+Documento do SKU de Cor Cinza Mescla:
+
+```json
+{
+	"createdAt": "2025-12-24T19:08:15.367861+00:00",
+	"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+	"active": true,
+	"productId": "0b5f7edc-f211-4066-8789-63bc7a2ba006",
+	"skuCode": "LAC-JAQ-CIN-P",
+	"name": "Jaqueta Comfort Nylon",
+	"keywords": "Jaqueta Lacoste Cinza Mescla",
+	"segments": [
+		{
+			"id": "seg-1",
+			"name": "Moda",
+			"slug": "moda"
+		}
+	],
+	"brand": {
+		"id": "9",
+		"name": "Lacoste"
+	},
+	"categories": [
+		{
+			"id": "cat-4",
+			"name": "Lançamentos",
+			"slug": "moda-lancamentos"
+		}
+	],
+	"price": {
+		"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+		"promotionalValue": 284.53,
+		"saleValue": 262.44
+	},
+	"priceRange": "250-300",
+	"images": {
+		"small": "",
+		"medium": "",
+		"large": ""
+	},
+	"skus": [
+		{
+			"id": "b603700d-cb12-4712-83a4-0aeac8a62790",
+			"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+			"active": true,
+			"code": "LAC-JAQ-CIN-P",
+			"ean": "9020464650305",
+			"price": {
+				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+				"promotionalValue": 0,
+				"saleValue": 0
+			},
+			"attributes": {
+				"color": "Cinza Mescla",
+				"size": "P",
+				"model": "Comfort",
+				"voltage": null,
+				"specifications": [
+					{
+						"key": "Material",
+						"value": "Nylon",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 1
+					},
+					{
+						"key": "Origem",
+						"value": "Nacional",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 2
+					}
+				]
+			}
+		},
+		{
+			"id": "6fbc0366-368e-44d9-9c3a-56d05c3f4c4c",
+			"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+			"active": true,
+			"code": "LAC-JAQ-CIN-M",
+			"ean": "7074459223097",
+			"price": {
+				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+				"promotionalValue": 284.53,
+				"saleValue": 262.44
+			},
+			"attributes": {
+				"color": "Cinza Mescla",
+				"size": "M",
+				"model": "Comfort",
+				"voltage": null,
+				"specifications": [
+					{
+						"key": "Material",
+						"value": "Nylon",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 1
+					},
+					{
+						"key": "Origem",
+						"value": "Nacional",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 2
+					}
+				]
+			}
+		}	
+	]
+}
+```
+
+Documento do SKU de Cor Amarelo:
+
+```json
+{
+	"createdAt": "2025-12-24T19:08:15.367903+00:00",
+	"updatedAt": "2025-12-24T19:08:15.367903+00:00",
+	"active": true,
+	"productId": "0b5f7edc-f211-4066-8789-63bc7a2ba006",
+	"skuCode": "LAC-JAQ-AMA-M",
+	"name": "Jaqueta Comfort Nylon",
+	"keywords": "Jaqueta Lacoste Amarelo",
+	"segments": [
+		{
+			"id": "seg-1",
+			"name": "Moda",
+			"slug": "moda"
+		}
+	],
+	"brand": {
+		"id": "9",
+		"name": "Lacoste"
+	},
+	"categories": [
+		{
+			"id": "cat-2",
+			"name": "Moda Profissional",
+			"slug": "moda-prof"
+		}
+	],
+	"price": {
+		"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+		"promotionalValue": 284.53,
+		"saleValue": 262.44
+	},
+	"priceRange": "200-250",
+	"images": {
+		"small": "",
+		"medium": "",
+		"large": ""
+	},
+	"skus": [
+		{
+			"id": "a31f398b-8a72-4194-9901-995a4de102f3",
+			"updatedAt": "2025-12-24T19:08:15.367903+00:00",
+			"active": true,
+			"code": "LAC-JAQ-AMA-M",
+			"ean": "9251633960049",
+			"price": {
+				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+				"promotionalValue": 284.53,
+				"saleValue": 262.44
+			},
+			"attributes": {
+				"color": "Amarelo",
+				"size": "M",
+				"model": "Comfort",
+				"voltage": null,
+				"specifications": [
+					{
+						"key": "Material",
+						"value": "Nylon",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 1
+					},
+					{
+						"key": "Origem",
+						"value": "Nacional",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 2
+					}
+				]
+			}
+		},
+		{
+			"id": "85def573-3021-4c1a-b43e-c089785832b6",
+			"updatedAt": "2025-12-24T19:08:15.367903+00:00",
+			"active": true,
+			"code": "LAC-JAQ-AMA-XG",
+			"ean": "1967041512504",
+			"price": {
+				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+				"promotionalValue": 284.53,
+				"saleValue": 262.44
+			},
+			"attributes": {
+				"color": "Amarelo",
+				"size": "XG",
+				"model": "Comfort",
+				"voltage": null,
+				"specifications": [
+					{
+						"key": "Material",
+						"value": "Nylon",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 1
+					},
+					{
+						"key": "Origem",
+						"value": "Nacional",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 2
+					}
+				]
+			}
+		},
+		{
+			"id": "6539ec92-ea9d-453c-85e3-80749289de6e",
+			"updatedAt": "2025-12-24T19:08:15.367903+00:00",
+			"active": true,
+			"code": "LAC-JAQ-AMA-P",
+			"ean": "9540885478505",
+			"price": {
+				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
+				"promotionalValue": 284.53,
+				"saleValue": 262.44
+			},
+			"attributes": {
+				"color": "Amarelo",
+				"size": "P",
+				"model": "Comfort",
+				"voltage": null,
+				"specifications": [
+					{
+						"key": "Material",
+						"value": "Nylon",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 1
+					},
+					{
+						"key": "Origem",
+						"value": "Nacional",
+						"type": "text",
+						"unit": null,
+						"displayOrder": 2
+					}
+				]
+			}
+		}
+	]
+}
+```
+
