@@ -73,7 +73,7 @@ def generate_product_document(product_id: str, base_name: str, brand: dict, prod
     Gera um único documento do Elasticsearch para um produto com uma cor específica,
     contendo múltiplos SKUs para diferentes tamanhos.
     """
-    now_iso = datetime.now(timezone.utc).isoformat()
+    now_iso = datetime.now(timezone.utc).isoformat()[:-6]
     # document_name = f"{base_name} Cor {color}"
     document_name = f"{base_name}"
 
