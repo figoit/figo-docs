@@ -494,6 +494,8 @@ Um produto com 5 SKUs com variação de cor e tamanho:
 
 ### Index Geral de Produtos
 
+O ID do documento no Elasticsearch será o ID do produto.
+
 O documento no Index Geral de Produtos teria o seguinte formato:
 
 ```json
@@ -787,7 +789,9 @@ No Index de Pesquisa de Produtos, onde os produtos são agrupados pelo atributo 
 	- SKU 2: Cor Amarelo e Tamanho XG
 	- SKU 3: Cor Amarelo e Tamanho P
 
-O produto teria dois documentos no Index de Pesquisa de SKUs com os seguintes formatos:
+O ID do documento no Elasticsearch será o ID do primeiro SKU utilizado na segregação.
+
+O produto teria dois documentos no Index de Pesquisa de SKUs com os seguintes formatos.
 
 Documento do SKU de Cor Cinza Mescla:
 
