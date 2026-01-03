@@ -52,10 +52,10 @@
     code: String,
     ean: String,
     mainSku: Boolean,
-    price: {
+    pricing: {
       updatedAt: Date,
-      promotionalValue: Decimal128,
-      saleValue: Decimal128,
+      priceFrom: Decimal128,
+      salePrice: Decimal128,
     },
     attributes: {
       updateAt: Date,
@@ -80,7 +80,7 @@
       large: String,
       zoom: String,
       order: Number,
-      mainSku: Boolean,
+      main: Boolean,
     }>,
   }>
 }
@@ -254,10 +254,10 @@ categories: {
 
 #### SKU Price Object
 
-- **`price`**: Pricing information
+- **`pricing`**: Pricing information
   - **`updatedAt`**: Price last update timestamp
-  - **`promotionalValue`**: Promotional/discounted price (Decimal128)
-  - **`saleValue`**: Current sale price (Decimal128)
+  - **`priceFrom`**: Promotional/discounted price (Decimal128)
+  - **`salePrice`**: Current sale price (Decimal128)
 
 #### SKU Attributes (Hybrid Dynamic Structure)
 
@@ -332,7 +332,7 @@ specifications: [
   - **`large`**: Large size image URL (500x500)
   - **`zoom`**: Zoom/high-resolution image URL (1000x1000)
   - **`order`**: Display order/position
-  - **`mainSku`**: Flag indicating if this is the primary image
+  - **`main`**: Flag indicating if this is the primary image
 
 ## Design Considerations
 
@@ -490,7 +490,7 @@ db.products.aggregate([
   { $project: {
     productName: "$name",
     skuId: "$skus._id",
-    price: "$skus.price.saleValue",
+    price: "$skus.pricing.salePrice",
     size: {
       $arrayElemAt: [
         "$skus.attributes.specifications.value",
@@ -675,8 +675,8 @@ db.products.aggregate([
       skuCode: "$skus.code",
       skuModel: "$skus.attributes.model",
       colors: "$skus.attributes.colors",
-      price: "$skus.price.saleValue",
-      promotionalPrice: "$skus.price.promotionalValue",
+      price: "$skus.pricing.salePrice",
+      promotionalPrice: "$skus.pricing.priceFrom",
       mainImage: { $arrayElemAt: ["$skus.images", 0] },
       brandName: "$brand.name"
   }},
@@ -848,10 +848,10 @@ All monetary values use **`Decimal128`** type to ensure:
       "ean": "7891356067013",
       "active": true,
       "mainSku": true,
-      "price": {
+      "pricing": {
         "updatedAt": ISODate("2024-12-18T09:00:00Z"),
-        "saleValue": Decimal128("379.90"),
-        "promotionalValue": Decimal128("299.90")
+        "salePrice": Decimal128("379.90"),
+        "priceFrom": Decimal128("299.90")
       },
       "attributes": {
         "updateAt": ISODate("2024-12-18T09:00:00Z"),
@@ -876,10 +876,10 @@ All monetary values use **`Decimal128`** type to ensure:
       "ean": "7891356067020",
       "active": true,
       "mainSku": false,
-      "price": {
+      "pricing": {
         "updatedAt": ISODate("2024-12-18T09:00:00Z"),
-        "saleValue": Decimal128("379.90"),
-        "promotionalValue": Decimal128("249.90")
+        "salePrice": Decimal128("379.90"),
+        "priceFrom": Decimal128("249.90")
       },
       "attributes": {
         "updateAt": ISODate("2024-12-18T09:00:00Z"),
@@ -981,10 +981,10 @@ All monetary values use **`Decimal128`** type to ensure:
       "ean": "7891234567890",
       "active": true,
       "mainSku": true,
-      "price": {
+      "pricing": {
         "updatedAt": ISODate("2024-12-18T09:00:00Z"),
-        "saleValue": Decimal128("89.90"),
-        "promotionalValue": Decimal128("79.90")
+        "salePrice": Decimal128("89.90"),
+        "priceFrom": Decimal128("79.90")
       },
       "attributes": {
         "updateAt": ISODate("2024-12-18T09:00:00Z"),
@@ -1010,10 +1010,10 @@ All monetary values use **`Decimal128`** type to ensure:
       "ean": "7891234567891",
       "active": true,
       "mainSku": false,
-      "price": {
+      "pricing": {
         "updatedAt": ISODate("2024-12-18T09:00:00Z"),
-        "saleValue": Decimal128("89.90"),
-        "promotionalValue": Decimal128("0")
+        "salePrice": Decimal128("89.90"),
+        "priceFrom": Decimal128("0")
       },
       "attributes": {
         "updateAt": ISODate("2024-12-18T09:00:00Z"),
@@ -1039,10 +1039,10 @@ All monetary values use **`Decimal128`** type to ensure:
       "ean": "7891234567892",
       "active": true,
       "mainSku": false,
-      "price": {
+      "pricing": {
         "updatedAt": ISODate("2024-12-18T09:00:00Z"),
-        "saleValue": Decimal128("89.90"),
-        "promotionalValue": Decimal128("79.90")
+        "salePrice": Decimal128("89.90"),
+        "priceFrom": Decimal128("79.90")
       },
       "attributes": {
         "updateAt": ISODate("2024-12-18T09:00:00Z"),

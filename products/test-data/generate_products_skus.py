@@ -91,10 +91,10 @@ def generate_product_document(product_id: str, base_name: str, brand: dict, prod
             "active": True,
             "code": f"{brand['name'][:3].upper()}-{product_type[:3].upper()}-{color[:3].upper()}-{size}",
             "ean": generate_ean(),
-            "price": { # O schema indica que este preço está desabilitado (enabled: false)
+            "pricing": { # O schema indica que este preço está desabilitado (enabled: false)
                 "updatedAt": now_iso,
-                "promotionalValue": 0.0,
-                "saleValue": 0.0
+                "priceFrom": 0.0,
+                "salePrice": 0.0
             },
             "attributes": {
                 "color": color,

@@ -70,12 +70,12 @@
           "slug": { "type": "keyword", "index": false }
         }
       },
-      "price": {
+      "pricing": {
         "type": "object",
         "properties": {
           "updatedAt": { "type": "date", "index": false },
-          "promotionalValue": { "type": "double", "index": false },
-          "saleValue": { "type": "double" }
+          "priceFrom": { "type": "double", "index": false },
+          "salePrice": { "type": "double" }
         }
       },
       "priceRange": { "type": "keyword" },
@@ -121,13 +121,13 @@
             "index": false,
             "copy_to": ["skusEans", "skusIdentifiers"]
           },
-          "price": {
+          "pricing": {
             "type": "object",
             "enabled": false,
             "properties": {
               "updatedAt": { "type": "date" },
-              "promotionalValue": { "type": "double" },
-              "saleValue": { "type": "double" }
+              "priceFrom": { "type": "double" },
+              "salePrice": { "type": "double" }
             }
           },
           "attributes": {

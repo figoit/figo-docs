@@ -163,7 +163,7 @@ Descritivos de alguns campos:
     - visa suportar pesquisa por faixas de valor fixo (oferecido na maioria dos ecommerces)
     - podemos limitar as variações disponíveis e gerar menos impacto nas consultas
     - exemplo de valor: `0-100`, `100-500`, `500-1000`
-- `price.saleValue`:
+- `pricing.salePrice`:
     - terá o valor do SKU agregador
     - suportará pesquisa de ranges de valor customizado (caso necessário) e ordenação do resultado pelo preço
 
@@ -236,7 +236,7 @@ Orientações dos campos:
 - `skusIdentifiers`: busca de SKU com filtro mais livre
 - `skusAttributesValues`: busca de atributos dos SKUs
 - `priceRange`: filtro de range de preço no marketplace
-- `price.saleValue`: filtro de valor mais específico no marketplace (evitar)
+- `price.salePrice`: filtro de valor mais específico no marketplace (evitar)
 
 ### Pesquisa no Index Geral de Produtos
 
@@ -540,10 +540,10 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 			"code": "LAC-JAQ-CIN-P",
 			"ean": "9020464650305",
 			"mainSku": true,
-			"price": {
+			"pricing": {
 				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-				"promotionalValue": 284.53,
-				"saleValue": 262.44
+				"priceFrom": 284.53,
+				"salePrice": 262.44
 			},
 			"attributes": {
 				"specifications": [
@@ -580,8 +580,9 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 					"small": "/images/sku-tshirt-print-m-01-small.jpg",
 					"medium": "/images/sku-tshirt-print-m-01-medium.jpg",
 					"large": "/images/sku-tshirt-print-m-01-large.jpg",
+					"large": "/images/sku-tshirt-print-m-01-zoom.jpg",
 					"order": 1,
-					"mainSku": true
+					"main": true
 				}
 			]
 		},
@@ -591,10 +592,10 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 			"active": true,
 			"code": "LAC-JAQ-CIN-M",
 			"ean": "7074459223097",
-			"price": {
+			"pricing": {
 				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-				"promotionalValue": 284.53,
-				"saleValue": 262.44
+				"priceFrom": 284.53,
+				"salePrice": 262.44
 			},
 			"attributes": {
 				"specifications": [
@@ -627,8 +628,9 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 					"small": "/images/sku-tshirt-print-g-01-small.jpg",
 					"medium": "/images/sku-tshirt-print-g-01-medium.jpg",
 					"large": "/images/sku-tshirt-print-g-01-large.jpg",
+					"zoom": "/images/sku-tshirt-print-g-01-zoom.jpg",
 					"order": 1,
-					"mainSku": true
+					"main": true
 				}
 			]
 		},
@@ -638,10 +640,10 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 			"active": true,
 			"code": "LAC-JAQ-AMA-M",
 			"ean": "9251633960049",
-			"price": {
+			"pricing": {
 				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-				"promotionalValue": 284.53,
-				"saleValue": 262.44
+				"priceFrom": 284.53,
+				"salePrice": 262.44
 			},
 			"attributes": {
 				"specifications": [
@@ -674,8 +676,9 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 					"small": "/images/sku-tshirt-print-g-01-small.jpg",
 					"medium": "/images/sku-tshirt-print-g-01-medium.jpg",
 					"large": "/images/sku-tshirt-print-g-01-large.jpg",
+					"large": "/images/sku-tshirt-print-g-01-zoom.jpg",
 					"order": 1,
-					"mainSku": true
+					"main": true
 				}
 			]
 		},
@@ -685,10 +688,10 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 			"active": true,
 			"code": "LAC-JAQ-AMA-XG",
 			"ean": "1967041512504",
-			"price": {
+			"pricing": {
 				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-				"promotionalValue": 284.53,
-				"saleValue": 262.44
+				"priceFrom": 284.53,
+				"salePrice": 262.44
 			},
 			"attributes": {
 				"specifications": [
@@ -721,8 +724,9 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 					"small": "/images/sku-tshirt-print-g-01-small.jpg",
 					"medium": "/images/sku-tshirt-print-g-01-medium.jpg",
 					"large": "/images/sku-tshirt-print-g-01-large.jpg",
+					"large": "/images/sku-tshirt-print-g-01-zoom.jpg",
 					"order": 1,
-					"mainSku": true
+					"main": true
 				}
 			]
 		},
@@ -732,10 +736,10 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 			"active": true,
 			"code": "LAC-JAQ-AMA-P",
 			"ean": "9540885478505",
-			"price": {
+			"pricing": {
 				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-				"promotionalValue": 284.53,
-				"saleValue": 262.44
+				"priceFrom": 284.53,
+				"salePrice": 262.44
 			},
 			"attributes": {
 				"specifications": [
@@ -768,8 +772,9 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 					"small": "/images/sku-tshirt-print-g-01-small.jpg",
 					"medium": "/images/sku-tshirt-print-g-01-medium.jpg",
 					"large": "/images/sku-tshirt-print-g-01-large.jpg",
+					"zoom": "/images/sku-tshirt-print-g-01-zoom.jpg",
 					"order": 1,
-					"mainSku": true
+					"main": true
 				}
 			]
 		}
@@ -822,10 +827,10 @@ Documento do SKU de Cor Cinza Mescla:
 			"slug": "moda-lancamentos"
 		}
 	],
-	"price": {
+	"pricing": {
 		"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-		"promotionalValue": 284.53,
-		"saleValue": 262.44
+		"priceFrom": 284.53,
+		"salePrice": 262.44
 	},
 	"priceRange": "250-300",
 	"images": {
@@ -840,10 +845,10 @@ Documento do SKU de Cor Cinza Mescla:
 			"active": true,
 			"code": "LAC-JAQ-CIN-P",
 			"ean": "9020464650305",
-			"price": {
+			"pricing": {
 				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-				"promotionalValue": 0,
-				"saleValue": 0
+				"priceFrom": 0,
+				"salePrice": 0
 			},
 			"attributes": {
 				"color": "Cinza Mescla",
@@ -874,10 +879,10 @@ Documento do SKU de Cor Cinza Mescla:
 			"active": true,
 			"code": "LAC-JAQ-CIN-M",
 			"ean": "7074459223097",
-			"price": {
+			"pricing": {
 				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-				"promotionalValue": 284.53,
-				"saleValue": 262.44
+				"priceFrom": 284.53,
+				"salePrice": 262.44
 			},
 			"attributes": {
 				"color": "Cinza Mescla",
@@ -937,8 +942,8 @@ Documento do SKU de Cor Amarelo:
 	],
 	"price": {
 		"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-		"promotionalValue": 284.53,
-		"saleValue": 262.44
+		"priceFrom": 284.53,
+		"salePrice": 262.44
 	},
 	"priceRange": "200-250",
 	"images": {
@@ -955,8 +960,8 @@ Documento do SKU de Cor Amarelo:
 			"ean": "9251633960049",
 			"price": {
 				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-				"promotionalValue": 284.53,
-				"saleValue": 262.44
+				"priceFrom": 284.53,
+				"salePrice": 262.44
 			},
 			"attributes": {
 				"color": "Amarelo",
@@ -989,8 +994,8 @@ Documento do SKU de Cor Amarelo:
 			"ean": "1967041512504",
 			"price": {
 				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-				"promotionalValue": 284.53,
-				"saleValue": 262.44
+				"priceFrom": 284.53,
+				"salePrice": 262.44
 			},
 			"attributes": {
 				"color": "Amarelo",
@@ -1023,8 +1028,8 @@ Documento do SKU de Cor Amarelo:
 			"ean": "9540885478505",
 			"price": {
 				"updatedAt": "2025-12-24T19:08:15.367861+00:00",
-				"promotionalValue": 284.53,
-				"saleValue": 262.44
+				"priceFrom": 284.53,
+				"salePrice": 262.44
 			},
 			"attributes": {
 				"color": "Amarelo",
