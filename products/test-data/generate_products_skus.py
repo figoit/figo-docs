@@ -235,7 +235,7 @@ def generate_grouped_sku_from_product(product):
             "createdAt": product['createdAt'],
             "updatedAt": product['updatedAt'],
             "active": product['active'],
-            "skuId": first_sku['id'],
+            "skuId": first_sku['id'], # campo apenas para a massa de dados para utilizar como ID do documento
             "skuCode": first_sku['code'],
             "name": product['name'],
             "keywords": product['keywords'],
@@ -290,8 +290,6 @@ def generate_products_data():
     export_file("products-search-index-fashion-data.json", all_grouped_skus_data)
 
 def main():
-
-    # generate_products_listing_data()
     generate_products_data()
 
 if __name__ == "__main__":
