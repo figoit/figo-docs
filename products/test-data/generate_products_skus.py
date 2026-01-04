@@ -12,8 +12,8 @@ CHARACTERS = string.ascii_letters + string.digits
 TOTAL_PRODUCT_CONCEPTS = 20000
 
 # Quantas marcas e tipos de produto devem ser sorteados dos pools de dados abaixo.
-NUM_PRODUCT_TYPES_TO_USE = 13
 NUM_BRANDS_TO_USE = 17
+NUM_PRODUCT_TYPES_TO_USE = 13
 
 
 # --- 2. POOLS DE DADOS ---
@@ -101,11 +101,8 @@ def generate_product(brand: dict, product_type: str):
     model = random.choice(MODELS)
 
     # 2. Sorteia quantas cores e tamanhos dos SKUs deste produto (1 a 3)
-    num_colors = random.randint(1, 3)
-    chosen_colors = random.sample(COLORS, num_colors)
-
-    num_sizes_for_color = random.randint(1, 3)
-    sizes_to_generate = random.sample(SIZES, num_sizes_for_color)
+    chosen_colors = random.sample(COLORS, random.randint(1, 3))
+    sizes_to_generate = random.sample(SIZES, random.randint(1, 3))
 
     # 3. Gera um SKU para cada cor e tamanho
     skus_for_document = []
