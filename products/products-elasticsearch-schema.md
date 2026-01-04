@@ -240,6 +240,20 @@ Orientações dos campos:
 
 ### Pesquisa no Index Geral de Produtos
 
+Pesquisa pelo ID do documento:
+
+```json
+{
+	"query": {
+		"ids": {
+			"values": [
+				"RsSNhJsBBq8AYHq89DB1"
+			]
+		}
+	}
+}
+```
+
 Pesquisa pelo nome:
 
 ```json
@@ -506,6 +520,13 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 	"name": "Jaqueta Comfort Nylon",
 	"description": "Jaqueta Lacoste",
 	"keywords": "camiseta, algodão, estampada, masculina, casual",
+	"segments": [
+		{
+			"id": "seg-1",
+			"name": "Moda",
+			"slug": "moda"
+		}
+	],
 	"brand": {
 		"id": "9",
 		"name": "Lacoste"
@@ -515,13 +536,6 @@ O documento no Index Geral de Produtos teria o seguinte formato:
 			"id": "cat-4",
 			"name": "Lançamentos",
 			"slug": "moda-lancamentos"
-		}
-	],
-	"segments": [
-		{
-			"id": "seg-1",
-			"name": "Moda",
-			"slug": "moda"
 		}
 	],
 	"characteristics": {
