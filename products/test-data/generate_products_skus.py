@@ -9,7 +9,7 @@ CHARACTERS = string.ascii_letters + string.digits
 # --- 1. CONFIGURAÇÃO ---
 # Quantidade de "conceitos" de produto a serem gerados (ex: "Camiseta Nike").
 # O número final de documentos será maior, pois cada conceito pode ter várias cores.
-TOTAL_PRODUCT_CONCEPTS = 20000
+TOTAL_PRODUCT_CONCEPTS = 500
 
 # Quantas marcas e tipos de produto devem ser sorteados dos pools de dados abaixo.
 NUM_BRANDS_TO_USE = 17

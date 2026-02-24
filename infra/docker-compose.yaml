@@ -1,0 +1,72 @@
+services:
+  mongodb:
+    image: mongo
+    hostname: mongodb
+    platform: linux/arm64
+    ports:
+      - 27017:27017
+    environment:
+      - "MONGO_INITDB_ROOT_USERNAME=guest"
+      - "MONGO_INITDB_ROOT_PASSWORD=guest"
+      - "MONGO_INITDB_DATABASE=figo-db"
+    volumes:
+      - dev-mongodb:/data/db
+
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    platform: linux/arm64
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - dev-rabbitmq:/var/lib/rabbitmq
+
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.2
+    hostname: elasticsearch
+    platform: linux/arm64
+    volumes:
+      - dev-elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    environment:
+      - "discovery.type=single-node"
+      - "bootstrap.memory_lock=true"
+      - "xpack.security.enabled=false"
+      - "xpack.security.http.ssl.enabled=false"
+      - "xpack.license.self_generated.type=trial"
+      - "xpack.ml.use_auto_machine_memory_percent=true"
+      - "cluster.name=es-cluster"
+      - "ELASTIC_PASSWORD=elasticunhackable"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx2g -Des.failure_store_feature_flag_enabled=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.17.2
+    hostname: kibana
+    platform: linux/arm64
+    volumes:
+      - dev-kibana:/usr/share/kibana/data
+    ports:
+      - 5601:5601
+    environment:
+      - "SERVER_NAME=kibana"
+      - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+      - "ELASTICSEARCH_USERNAME=kibana_system"
+      - "ELASTICSEARCH_PASSWORD=kibanaunhackable"
+      - "XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=POxjzCVByQ4HBSokxmAhxUyfKVPaunoR"
+      - "ELASTICSEARCH_PUBLICBASEURL=http://localhost:9200"
+
+volumes:
+  dev-mongodb:
+  dev-rabbitmq:
+  dev-elasticsearch:
+  dev-kibana:

@@ -28,6 +28,7 @@
     }
   },
   "mappings": {
+    "dynamic": "strict",
     "properties": {
       "id": { "type": "keyword" },
       "createdAt": { "type": "date" },
@@ -92,6 +93,7 @@
           },
           "updatedAt": { "type": "date", "index": false },
           "active": { "type": "boolean", "index": false },
+          "name": { "type": "text", "index": false },
           "code": {
             "type": "keyword",
             "index": false,
