@@ -28,6 +28,19 @@ Indexes:
 - **Index Geral de Produtos:** index com o mapeamento completo do produto e seus SKUs, visando buscas a partir dos identificadores do produto ou de seus SKUs.
 - **Index de Pesquisa de Produtos:** index com o mapeamento de SKUs visando a pesquisa a partir das variações de produtos, cada produto pode gerar um ou mais documentos nesse index dependendo do segmento (agrupamento dos SKUs de acordo com o atributo segregador).
 
+**SKU**
+
+Para contemplar o código SKU de diferentes parceiros (alguns são únicos e outros não) será utilizado três campos:
+
+- Código SKU _Plataforma_:
+	- código SKU da plataforma
+	- quando o parceiro tiver o código SKU único esse deverá ser o mesmo do parceiro
+	- quando o parceiro tiver o mesmo código SKU para diferentes variações, a plataforma deverá gerar um código SKU único derivado do código SKU parceiro e algum atributo do SKU
+- Código SKU Parceiro:
+	- código SKU do parceiro independente da regra de unicidade
+	- poderá ser utilizado na integração junto com os outros atributos do SKU
+	- copia o código SKu do parceiro para permitir a busca no Elasticsearch (poderá retornar diferentes variações para o mesmo código)
+
 ### Carga
 
 No processo de carga de produtos do marketplace será necessário alimentar o index geral de produtos com o mapeamento completo do produto e todos os indexes de pesquisa de produtos dos segmentos em que o produto está vinculado.
@@ -72,6 +85,10 @@ Descritivos de alguns campos:
 - `skusIds`:
     - visa salvar os IDs dos SKUs
     - suportará a pesquisa pelo ID do SKU
+- `skusCodes`:
+	- visa salvar os códigos SKUs
+	- deve ser mapeado o código SKU plataforma e código SKU do parceiro
+    - suportará a pesquisa pelo código do SKU
 - `skusEans`:
     - visa salvar os EANs dos SKUs
     - suportará a pesquisa por EAN
@@ -149,6 +166,10 @@ Descritivos de alguns campos:
 - `skusIds`:
     - visa salvar os IDs dos SKUs
     - suportará a busca pelo ID do SKU
+- `skusCodes`:
+	- visa salvar os códigos SKUs das variações que foram agrupadas
+	- deve ser mapeado o código SKU plataforma e código SKU do parceiro
+    - suportará a pesquisa pelo código do SKU
 - `skusEans`:
     - visa salvar os EANs dos SKUs
     - suportará a busca por EAN

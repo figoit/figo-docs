@@ -22,7 +22,7 @@
       "filter": {
         "stemmer_plural_portugues": {
           "type": "stemmer",
-          "name": "minimal_portuguese"
+          "name": "light_portuguese"
         }
       }
     }
@@ -95,6 +95,11 @@
           "active": { "type": "boolean", "index": false },
           "name": { "type": "text", "index": false },
           "code": {
+            "type": "keyword",
+            "index": false,
+            "copy_to": ["skusCodes", "skusIdentifiers"]
+          },
+          "partnerCode": {
             "type": "keyword",
             "index": false,
             "copy_to": ["skusCodes", "skusIdentifiers"]
